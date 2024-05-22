@@ -1,0 +1,115 @@
+/*
+ALLAH IS GREAT
+*/
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define nl "\n"
+const ll Mod = 1e9;
+const ll N = 1e5+7;
+#define Subhanallah_Alhamdulillah_Allahu_Akbar ios_base::sync_with_stdio(false);cin.tie(NULL);
+bool bs[1000007];
+const ll sz = 1e5+5;
+vector<ll>prime;
+ll vis[N];
+ll arr[N];
+vector<ll>graph[N];
+void sieve()
+{
+    bs[0]=bs[1]=1;
+    for(ll i=3;i*i<=sz;i+=2)
+    {
+        if(!bs[i])
+        {
+            for(ll j=i*i;j<=sz;j+=i)
+            {
+                bs[j]=1;
+            }
+        }
+    }
+    prime.push_back(2);
+    for(ll i=3;i<=sz;i+=2)
+    {
+        if(!bs[i])
+        {
+            prime.push_back(i);
+        }
+    }
+}
+ll mod(ll a, ll m){
+    return (a % m + m) % m;
+}
+ll biexpo(ll base,ll power)
+{
+    ll ans =1;
+    while(power)
+    {
+        if(power%2==1)
+        {
+            ans=(ans*base);
+            power--;
+        }
+        else
+        {
+            base=(base*base);
+            power/=2;
+        }
+    }
+    return ans;
+}
+ll dfs(ll n)
+{
+    vector<ll>v;
+    vis[n]=1;
+    stack<ll>st;
+    st.push(n);
+    while(!st.empty())
+    {
+    ll cur = st.top();
+    v.push_back(cur);
+    st.pop();
+    for(auto &i:graph[cur])
+    {
+        if(!vis[i])
+        {
+            st.push(i);
+            vis[i]=1;
+        }
+    }
+    }
+    ll mi = 1e18;
+    for(auto &k:v)
+    {
+        mi = min(mi,arr[k-1]);
+    }
+    return mi;
+}
+int main()
+{
+    Subhanallah_Alhamdulillah_Allahu_Akbar
+    ll t=1;
+    //cin>>t;
+    while(t--)
+    {
+        ll n;
+        cin>>n;
+        vector<pair<ll,ll>>v;
+        for(ll i=1;i<=n;i++)
+        {
+            ll come,go;
+            cin>>come>>go;
+            v.push_back(make_pair(come,1));
+            v.push_back(make_pair(go,-1));
+        }
+        sort(v.begin(),v.end());
+        ll mx = INT_MIN;
+        ll sum=0;
+        for(ll i=0;i<v.size();i++)
+        {
+            sum+=(v[i].second);
+            mx = max(mx,sum);
+        }
+        cout<<mx<<nl;
+    }
+    return 0;
+}
